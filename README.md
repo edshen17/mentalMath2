@@ -1,2 +1,2 @@
 # mentalMath2
-Auditory Mental Math 
+Auditory Mental Math
