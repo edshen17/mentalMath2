@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  form(method='POST' action='/play')
+    div.form-group
+      label(for='amount') Amount of problems:
+      input#amount.form-control(type='text', placeholder='' name='amount' value='20')
+    div.form-group
+      label(for='min') Range of numbers:
+      input#min.form-control(type='text', placeholder='' name='min' value='1')
+    div.form-group
+      label(for='max') to
+      input#max.form-control(type='text', placeholder='' name='max' value='20')
+    div.form-group
+      label(for='addition')
+      input.form-control(type='radio'  id = 'addition' name='browser' value='Addition' checked='checked')
+      | Addition
+    div.form-group
+      label(for='subtraction')
+      input.form-control(type='radio'  id = 'subtraction' name='browser' value='Subtraction')
+      | Subtraction
+    div.form-group
+      label(for='multiplication')
+      input.form-control(type='radio'  id = 'multiplication' name='browser' value='Multiplication')
+      | Multiplication
+    div.form-group
+      label(for='division')
+      input.form-control(type='radio'  id = 'division' name='browser' value='Division')
+      | Division
+    button.btn.btn-primary(type='submit') Play now
+    
