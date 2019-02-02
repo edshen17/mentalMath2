@@ -40,7 +40,7 @@ app.post('/play', function(req, res, next) {
       questionArray.push(new Question(req.body.radio, req.body.min, req.body.max));
     }
 
-    return res.render('play', { questions: questionArray });
+    return res.render('play', { questions: questionArray, score: 0});
   }
 });
 
