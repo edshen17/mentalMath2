@@ -1,3 +1,4 @@
-extends layout
-
-block content
+- let score = 0
+  p #{questions[score].num1} #{questions[score].operation}  #{questions[score].num2} #{score}
+  input#answer
+  button.btn.btn-primary(onclick='#{checkAnswer()}') Enter

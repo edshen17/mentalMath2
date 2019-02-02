@@ -3,9 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const game = require('./game.js');
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'pug');
 
 // include routes
@@ -33,25 +34,14 @@ app.get('/play', function(req, res, next) {
 
 app.post('/play', function(req, res, next) {
   if (req.body.amount && req.body.min && req.body.max) {
-    const question = {
-      num1: Math.floor(Math.random() * req.body.max, 10 - req.body.min + req.body.min), //refactor into a function!
-      num2: Math.floor(Math.random() * req.body.max, 10 - req.body.min + req.body.min),
-      get answer () {
-        return this.num1 + this.num2;
-      },
-      get voice() {
-        return `${this.num1} + ${this.num2} is`
-      },
-      operation: "+" //placeholder for now
-    };
+    const questionArray = [];
+    for (let i = 0; i < req.body.amount; i++) {
+      questionArray.push(game.createQuestion(req.body.radio, req.body.min, req.body.max));
+    }
 
-    console.dir(question);
-    console.log(question.answer, question.voice);
-    return res.render('play', { title: 'Game' });
-
+    return res.render('play', { questions: questionArray });
   }
 });
-
 
 
 // listen on port 3000
