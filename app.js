@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const game = require('./game.js');
+const Question = require('./game.js');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,7 +37,7 @@ app.post('/play', function(req, res, next) {
   if (req.body.amount && req.body.min && req.body.max) {
     const questionArray = [];
     for (let i = 0; i < req.body.amount; i++) {
-      questionArray.push(game.createQuestion(req.body.radio, req.body.min, req.body.max));
+      questionArray.push(new Question(req.body.radio, req.body.min, req.body.max));
     }
 
     return res.render('play', { questions: questionArray });
