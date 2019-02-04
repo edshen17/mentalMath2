@@ -8,11 +8,6 @@ class Question {
     this.num2 = ranNums(min, max);
   }
 
-  //used in responsiveVoice
-  get voice() {
-    return `${this.num1} ${this.op} ${this.num2} is`;
-  }
-
   set operation(op) {
     if (op === 'Addition') {
       this.op = '+'
