@@ -8,48 +8,28 @@ class Question {
     this.num2 = ranNums(min, max);
   }
 
-  get operation() {
-    if (this.op === 'Addition') {
-      this.op = '+'
-      this.answer = this.num1 + this.num2;
-      return this.op;
-    } else if (this.op === 'Subtraction') {
-      this.op = '-'
-      this.answer = this.num1 - this.num2;
-      return this.op;
-    } else if (this.op === 'Multiplication') {
-      this.op = "*"
-      this.answer = this.num1 * this.num2;
-      return this.op;
-    } else {
-      this.op = '÷';
-      this.answer = this.num1 / this.num2;
-      return this.op;
-    }
-  }
-
   //used in responsiveVoice
   get voice() {
     return `${this.num1} ${this.op} ${this.num2} is`;
   }
 
-}
+  set operation(op) {
+    if (op === 'Addition') {
+      this.op = '+'
+      this.answer = this.num1 + this.num2;
+    } else if (op === 'Subtraction') {
+      this.op = '-'
+      this.answer = this.num1 - this.num2;
+    } else if (op === 'Multiplication') {
+      this.op = "*"
+      this.answer = this.num1 * this.num2;
+    } else {
+      this.op = '÷';
+      this.answer = this.num1 / this.num2;
+    }
+  }
 
-// function getOperation(operation) {
-//   if (op === 'Addition') {
-//       return '+'
-//       this.answer = this.num1 + this.num2;
-//     } else if (op === 'Subtraction') {
-//       this.op = '-'
-//       this.answer = this.num1 - this.num2;
-//     } else if (this.op === 'Multiplication') {
-//       this.op = "*"
-//       this.answer = this.num1 * this.num2;
-//     } else {
-//       this.op = '÷';
-//       this.answer = this.num1 / this.num2;
-//     }
-// }
+}
 
 //creates a random number
 function ranNums(n1, n2) {
@@ -60,7 +40,9 @@ function ranNums(n1, n2) {
 function createQuestions(op = 'Addition', min = 0, max = 20, amnt = 20) {
   const questionArray = []
   for (let i = 0; i < amnt; i++) {
-    questionArray.push(new Question(op, min, max));
+    let question = new Question(op, min, max);
+    question.operation = op;
+    questionArray.push(question);
   }
 
   return questionArray;
