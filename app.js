@@ -3,11 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const game = require('./game.js');
-const Question = require('./game.js');
+const game = require('./static/game.js');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/static'));
 app.set('view engine', 'pug');
 
 // include routes
@@ -30,17 +30,14 @@ app.get('/profile', function(req, res, next) {
 });
 
 app.get('/play', function(req, res, next) {
-  return res.render('play', { title: 'Game' });
+  const questionArray = game.createQuestions(); //use default values
+  return res.render('play', { title: 'Game', questions: questionArray, score: 0, operation: req.body.radio});
 });
 
 app.post('/play', function(req, res, next) {
   if (req.body.amount && req.body.min && req.body.max) {
-    const questionArray = [];
-    for (let i = 0; i < req.body.amount; i++) {
-      questionArray.push(new Question(req.body.radio, req.body.min, req.body.max));
-    }
-
-    return res.render('play', { questions: questionArray, score: 0});
+    const questionArray = game.createQuestions(req.body.radio, req.body.min, req.body.max, req.body.amount);
+    return res.render('play', { questions: questionArray, score: 0, operation: req.body.radio});
   }
 });
 

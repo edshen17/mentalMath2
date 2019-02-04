@@ -1,4 +1,36 @@
-p#question #{questions[score].num1} #{questions[score].operation}  #{questions[score].num2} 
-p#score #{score}
-input#answer
-button.btn.btn-primary(onclick='') Enter
+doctype html
+html
+	head
+		p#question #{questions[score].num1} #{questions[score].operation}  #{questions[score].num2} 
+			p#score #{score}
+			input#answer
+			button.btn.btn-primary#check-button Enter
+
+	script(type="text/javascript").
+		let score = !{JSON.stringify(score)};
+		const questions = !{JSON.stringify(questions)};
+		const scoreElem = document.getElementById('score');
+		const qElem = document.getElementById('question');
+
+		document.getElementById('check-button').addEventListener('click', function() {
+			let input = parseInt(document.getElementById('answer').value);
+
+			if (input && typeof input === 'number') {
+				if (input === questions[score].answer) {
+					score++
+					scoreElem.innerHTML = score;
+					qElem.innerHTML = `${questions[score].num1} ${questions[score].operation}  ${questions[score].num2}`
+
+
+				}
+
+				else {
+					console.log('wrong!')
+				}
+			}
+			else {
+				alert('please enter a valid input!');
+			}
+
+
+		});
