@@ -23,7 +23,6 @@ class Question {
       this.answer = this.num1 / this.num2;
     }
   }
-
 }
 
 //creates a random number
@@ -42,6 +41,5 @@ function createQuestions(op = 'Addition', min = 0, max = 20, amnt = 20) {
 
   return questionArray;
 }
-
 
 module.exports.createQuestions = createQuestions;

@@ -4,20 +4,27 @@ html
 		title Mental Math 2 | Play
 		script(src='http://code.responsivevoice.org/responsivevoice.js')
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		link(rel='stylesheet', href='/stylesheets/style.css')
 		p#question #{questions[score].num1} #{questions[score].op}  #{questions[score].num2} 
 			p#score #{score}
 			input#answer
 			button.btn.btn-primary#check-button Enter
 			button.btn.btn-primary#repeat-button Repeat
-			button.btn.btn-primary#break-button Break number 
+			button.btn.btn-primary#group-button(onclick='groupUp()') Break number 
+			button.btn.btn-primary#blur-button Unblur question
 
 	script(type="text/javascript").
 		let score = !{JSON.stringify(score)};
 		const questions = !{JSON.stringify(questions)};
-		responsiveVoice.speak(`${questions[score].num1} ${questions[score].op} ${questions[score].num2}`);
 		const $repeat = $('#repeat-button');
+		let groupButton = document.getElementById('group-button');
+		let isTwoDigit = questions[score].num2 < 9;
+		isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+		
 		//if user presses enter on the keyboard
 		$(document).ready(function(){ 
+			setTimeout(() => { responsiveVoice.speak(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`, "UK English Male")}, 500);
+			$("#question").toggleClass("blurred");
 			$('#answer').keypress(function(e){
 				if (e.keyCode==13) $('#check-button').click();
 			});
@@ -36,37 +43,65 @@ html
 					responsiveVoice.speak(`was ${questions[score].answer}`);
 					score++
 					$scoreElem.text(score);
-					if (score < questions.length) {
-					$qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
-					setTimeout(() => { responsiveVoice.speak(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`, "UK English Male")}, 1000);
-				}
+					let groupButton = document.getElementById('group-button');
+					let isTwoDigit = questions[score].num2 < 9;
+					isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+						if (score < questions.length) {
+						$qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
+						setTimeout(() => { responsiveVoice.speak(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`, "UK English Male")}, 1000);
+					}
 
-				else {
-					$('#question').text('you win!');
-					$('#answer').hide();
-					$('#check-button').hide();
-				}
+					else {
+						$('#question').text('you win!');
+						$('#answer').hide();
+						$('#check-button').hide();
+					}
 
 				}
 
 				else {
 					$input.val('');
 					responsiveVoice.speak(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`, "UK English Male")
-					console.log('wrong!');
 				}
 			}
 			else {
 				alert('Please enter a valid input!');
 			}
-
-
 		});
-		
+
 		$repeat.click(function() {
-				responsiveVoice.speak(`${questions[score].num1} ${questions[score].op} ${questions[score].num2}`);
+			responsiveVoice.speak(`${questions[score].num1} ${questions[score].op} ${questions[score].num2}`, "UK English Male");
 		});
-		
-	
-		
-		
-		
+
+		jQuery(document).on('keydown',function(evt) {
+			if (evt.keyCode == 82) {
+				$('#repeat-button').click();
+			}
+		});
+
+		$('#blur-button').on('click', function() {
+
+			let isBlurred = $('#blur-button').text() === 'Unblur question'
+			isBlurred ? $('#blur-button').text('Blur question') : $('#blur-button').text('Unblur question') //changes button text depending on toggleClass
+
+			$("#question").toggleClass("blurred");
+		})
+
+		//groups numbers by splitting them up of multiplies of either tens, hundreds, thousands, etc.
+		function breakNumbers(num) { 
+			var nums = num.toString().split('');
+			var len = nums.length;
+			var answer = nums.map(function(n, i) {
+			return n + (Array(len - i - 1).fill(0)).join('');
+			});
+			return answer.map(Number).filter(function(n) { return n !== 0;});
+		}
+
+		//groupup and speak
+		function groupUp() {
+			const arr = breakNumbers(questions[score].num2);
+
+			questions[score].brokenUp = `${questions[score].num1} ${questions[score].op} , ${arr.join(questions[score].op)}`;
+			responsiveVoice.speak(questions[score].brokenUp, "UK English Male");
+
+			}

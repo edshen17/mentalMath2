@@ -1,0 +1,14 @@
+
+/* Base Styles */
+
+.blurred {
+
+   color: transparent;
+
+   text-shadow: rgba(0, 0, 0, 10.95) 0px 0px 50px;
+
+   font-size: .8em;
+
+  padding-left: 25px;
+
+}
