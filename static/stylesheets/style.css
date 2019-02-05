@@ -12,3 +12,20 @@
   padding-left: 25px;
 
 }
+
+
+#group_button { /** break button **/
+
+position:relative;
+
+bottom:14px;
+
+right:20px;
+
+height:42px;
+color: rebeccapurple;
+margin-left: -120px;
+
+
+
+}
