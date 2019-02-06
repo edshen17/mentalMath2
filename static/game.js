@@ -1,5 +1,6 @@
 function onReady(questions) {
   setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 500);
+
   $("#question").toggleClass("blurred");
   $('#answer').keypress(function(e) {
     if (e.keyCode == 13) $('#check-button').click();
@@ -27,13 +28,14 @@ function checkAnswer(questions) {
       score++
       $scoreElem.text(score);
 
-      let groupButton = document.getElementById('group-button');
-      let isTwoDigit = questions[score].num2 < 9;
-      isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
-
       if (score < questions.length) {
+        let groupButton = document.getElementById('group-button');
+        let isTwoDigit = questions[score].num2 < 9;
+        isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+
         $qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
-        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 3000);
+        if (!responsiveVoice.isPlaying()) responsiveVoice.speak(`${questions[score].voice}`, "UK English Male");
+
       } else {
         $('#question').text('you win!');
         $('#answer').hide();
@@ -51,9 +53,9 @@ function checkAnswer(questions) {
 
 //groups numbers by splitting them up of multiplies of either tens, hundreds, thousands, etc.
 function breakNumbers(num) {
-  var nums = num.toString().split('');
-  var len = nums.length;
-  var answer = nums.map(function(n, i) {
+  const nums = num.toString().split('');
+  const len = nums.length;
+  const answer = nums.map(function(n, i) {
     return n + (Array(len - i - 1).fill(0)).join('');
   });
   return answer.map(Number).filter(function(n) { return n !== 0; });
