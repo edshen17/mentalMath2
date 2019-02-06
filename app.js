@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const game = require('./static/game.js');
+const question = require('./static/question.js');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,17 +30,16 @@ app.get('/profile', function(req, res, next) {
 });
 
 app.get('/play', function(req, res, next) {
-  const questionArray = game.createQuestions(); //use default values
+  const questionArray = question.createQuestions(); //use default values
   return res.render('play', { title: 'Game', questions: questionArray, score: 0, operation: req.body.radio});
 });
 
 app.post('/play', function(req, res, next) {
   if (req.body.amount && req.body.min && req.body.max) {
-    const questionArray = game.createQuestions(req.body.radio, req.body.min, req.body.max, req.body.amount);
+    const questionArray = question.createQuestions(req.body.radio, req.body.min, req.body.max, req.body.amount);
     return res.render('play', { questions: questionArray, score: 0, operation: req.body.radio});
   }
 });
-
 
 // listen on port 3000
 app.listen(3000, function() {

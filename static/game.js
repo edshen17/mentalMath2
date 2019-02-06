@@ -1,45 +1,65 @@
-'use strict'
+function onReady(questions) {
+  setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 500);
+  $("#question").toggleClass("blurred");
+  $('#answer').keypress(function(e) {
+    if (e.keyCode == 13) $('#check-button').click();
+  });
+}
 
-//Question class
-class Question {
-  constructor(op, min, max) {
-    this.op = op;
-    this.num1 = ranNums(min, max);
-    this.num2 = ranNums(min, max);
-  }
+function onBlur() {
+  $("#answer").focus();
+  let isBlurred = $('#blur-button').text() === 'Unblur question'
+  isBlurred ? $('#blur-button').text('Blur question') : $('#blur-button').text('Unblur question') //changes button text depending on toggleClass
+  $("#question").toggleClass("blurred");
+}
 
-  set operation(op) {
-    if (op === 'Addition') {
-      this.op = '+'
-      this.answer = this.num1 + this.num2;
-    } else if (op === 'Subtraction') {
-      this.op = '-'
-      this.answer = this.num1 - this.num2;
-    } else if (op === 'Multiplication') {
-      this.op = "*"
-      this.answer = this.num1 * this.num2;
+function checkAnswer(questions) {
+  const $scoreElem = $('#score');
+  const $input = $('#answer');
+  const $qElem = $('#question');
+  let input = parseInt(document.getElementById('answer').value);
+  $("#answer").focus();
+  if (input && typeof input === 'number') {
+    if (input === questions[score].answer) {
+      $input.val('');
+      responsiveVoice.speak(`was ${questions[score].answer}`);
+      score++
+      $scoreElem.text(score);
+      let groupButton = document.getElementById('group-button');
+      let isTwoDigit = questions[score].num2 < 9;
+      isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+      if (score < questions.length) {
+        $qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
+        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 1000);
+      } else {
+        $('#question').text('you win!');
+        $('#answer').hide();
+        $('#check-button').hide();
+      }
+
     } else {
-      this.op = '÷';
-      this.answer = this.num1 / this.num2;
+      $input.val('');
+      responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
     }
+  } else {
+    alert('Please enter a valid input!');
   }
 }
 
-//creates a random number
-function ranNums(n1, n2) {
-  return Math.floor(Math.random() * n2, 10 - n1 + n2);
+//groups numbers by splitting them up of multiplies of either tens, hundreds, thousands, etc.
+function breakNumbers(num) {
+  var nums = num.toString().split('');
+  var len = nums.length;
+  var answer = nums.map(function(n, i) {
+    return n + (Array(len - i - 1).fill(0)).join('');
+  });
+  return answer.map(Number).filter(function(n) { return n !== 0; });
 }
 
-//creates an array of Questions
-function createQuestions(op = 'Addition', min = 0, max = 20, amnt = 20) {
-  const questionArray = []
-  for (let i = 0; i < amnt; i++) {
-    let question = new Question(op, min, max);
-    question.operation = op;
-    questionArray.push(question);
-  }
-
-  return questionArray;
+//group up and speak
+function groupUp() {
+  const arr = breakNumbers(questions[score].num2);
+  $("#answer").focus();
+  questions[score].brokenUp = `${questions[score].num1} ${questions[score].op} , ${arr.join(questions[score].op)}`;
+  responsiveVoice.speak(questions[score].brokenUp, "UK English Male");
 }
-
-module.exports.createQuestions = createQuestions;
