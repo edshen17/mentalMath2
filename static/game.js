@@ -18,19 +18,22 @@ function checkAnswer(questions) {
   const $input = $('#answer');
   const $qElem = $('#question');
   let input = parseInt(document.getElementById('answer').value);
+
   $("#answer").focus();
   if (input && typeof input === 'number') {
     if (input === questions[score].answer) {
       $input.val('');
-      responsiveVoice.speak(`was ${questions[score].answer}`);
+      responsiveVoice.speak(`was ${questions[score].answer}`, "UK English Male");
       score++
       $scoreElem.text(score);
+
       let groupButton = document.getElementById('group-button');
       let isTwoDigit = questions[score].num2 < 9;
       isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+
       if (score < questions.length) {
         $qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
-        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 1000);
+        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 3000);
       } else {
         $('#question').text('you win!');
         $('#answer').hide();
