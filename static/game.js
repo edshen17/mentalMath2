@@ -1,12 +1,29 @@
-function onReady(questions) {
-  setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 500);
+'use strict'
 
+/**
+ * onReady - runs when the DOM is loaded. Says the first question and listens for enter keypress
+ *
+ * @param  {Array} questions Array of questions
+ * @return {null}
+ */
+function onReady(questions) {
+  setTimeout(() => {
+    responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
+  }, 500);
+
+  $("#answer").focus();
   $("#question").toggleClass("blurred");
   $('#answer').keypress(function(e) {
     if (e.keyCode == 13) $('#check-button').click();
   });
 }
 
+
+/**
+ * onBlur - blurs the question and changes button text depending on state
+ *
+ * @return {null}
+ */
 function onBlur() {
   $("#answer").focus();
   let isBlurred = $('#blur-button').text() === 'Unblur question'
@@ -14,6 +31,13 @@ function onBlur() {
   $("#question").toggleClass("blurred");
 }
 
+
+/**
+ * checkAnswer - checks if the answer is correct and increments the score
+ *
+ * @param  {Array} questions Question array
+ * @return {null}
+ */
 function checkAnswer(questions) {
   const $scoreElem = $('#score');
   const $input = $('#answer');
@@ -21,20 +45,19 @@ function checkAnswer(questions) {
   let input = parseInt(document.getElementById('answer').value);
 
   $("#answer").focus();
-  if (input && typeof input === 'number') {
+  if (input || input === 0 && questions[score].answer === 0) {
     if (input === questions[score].answer) {
       $input.val('');
-      responsiveVoice.speak(`was ${questions[score].answer}`, "UK English Male");
       score++
       $scoreElem.text(score);
 
       if (score < questions.length) {
         let groupButton = document.getElementById('group-button');
-        let isTwoDigit = questions[score].num2 < 9;
+        let isTwoDigit = questions[score].num2 <= 10;
         isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
 
         $qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
-        if (!responsiveVoice.isPlaying()) responsiveVoice.speak(`${questions[score].voice}`, "UK English Male");
+        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
 
       } else {
         $('#question').text('you win!');
@@ -46,22 +69,31 @@ function checkAnswer(questions) {
       $input.val('');
       responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
     }
-  } else {
-    alert('Please enter a valid input!');
   }
 }
 
-//groups numbers by splitting them up of multiplies of either tens, hundreds, thousands, etc.
+/**
+ * breakNumbers - groups numbers by splitting them up of multiples of either tens, hundreds, thousands, etc.
+ *
+ * @param  {number} num number to be broken up into smaller pieces
+ * @return {number}     broken up number
+ */
 function breakNumbers(num) {
   const nums = num.toString().split('');
   const len = nums.length;
   const answer = nums.map(function(n, i) {
     return n + (Array(len - i - 1).fill(0)).join('');
   });
-  return answer.map(Number).filter(function(n) { return n !== 0; });
+  return answer.map(Number).filter(function(n) {
+    return n !== 0;
+  });
 }
 
-//group up and speak
+/**
+ * groupUp - group the numbers up and speak
+ *
+ * @return {null}
+ */
 function groupUp() {
   const arr = breakNumbers(questions[score].num2);
   $("#answer").focus();

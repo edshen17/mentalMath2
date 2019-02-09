@@ -4,13 +4,13 @@ block content
   form(method='POST' action='/play')
     div.form-group
       label(for='amount') Amount of problems:
-      input#amount.form-control(type='text', placeholder='' name='amount' value='20')
+      input#amount.form-control(type='number', placeholder='' name='amount' value='20')
     div.form-group
       label(for='min') Range of numbers:
-      input#min.form-control(type='text', placeholder='' name='min' value='1')
+      input#min.form-control(type='number', placeholder='' name='min' value='1')
     div.form-group
       label(for='max') to
-      input#max.form-control(type='text', placeholder='' name='max' value='20')
+      input#max.form-control(type='number', placeholder='' name='max' value='20')
     div.form-group
       label(for='addition')
       input.form-control(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
@@ -28,4 +28,3 @@ block content
       input.form-control(type='radio'  id = 'division' name='radio' value='Division')
       | Division
     button.btn.btn-primary(type='submit') Play now
-    
