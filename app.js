@@ -25,6 +25,22 @@ app.use('/profile', routes);
 app.use('register', routes);
 app.use('/play', routes);
 
+// 404 error
+app.use(function(req, res, next) {
+  var err = new Error('File Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
 
 // listen on port 3000
 app.listen(3000, function() {

@@ -67,7 +67,7 @@ router.post('/register', function(req, res, next) {
 
       User.create(userData, function(err, user) {
         if (err) {
-          return next(error);
+          return next(err);
         } else {
           return res.redirect('/profile');
         }
