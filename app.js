@@ -7,7 +7,11 @@ const routes = require('./routes/index.js');
 const app = express();
 
 // sessions for logins
-app.use(session({secret: 'your secret', saveUninitialized: false, resave: true}));
+app.use(session({
+  secret: 'top secret!',
+  saveUninitialized: false,
+  resave: true
+}));
 // connect to mongodb
 mongoose.connect('mongodb://localhost:27017/users');
 const db = mongoose.connection;
@@ -15,7 +19,9 @@ const db = mongoose.connection;
 // on mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(express.static(__dirname + '/static'));
 app.set('view engine', 'pug');
 

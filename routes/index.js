@@ -6,35 +6,41 @@ const User = require('../models/user');
 
 // GET /profile
 router.get('/profile', function(req, res, next) {
-  if (!req.session.userId ) {
+  if (!req.session.userId) {
     const err = new Error("You must be logged in to see this page");
     err.status = 403;
     return next(err);
   }
   User.findById(req.session.userId)
-      .exec(function (error, user) {
-        if (error) {
-          return next(error);
-        } else {
-          return res.render('profile', { title: 'Profile', username: user.username, favorite: user.highscore });
-        }
-      });
+    .exec(function(error, user) {
+      if (error) {
+        return next(error);
+      } else {
+        return res.render('profile', {
+          title: 'Profile',
+          username: user.username,
+          favorite: user.highscore
+        });
+      }
+    });
 });
 
 // GET /login
 router.get('/login', function(req, res, next) {
-  return res.render('login', { title: 'Log In'});
+  return res.render('login', {
+    title: 'Log In'
+  });
 });
 
 // POST /login
 router.post('/login', function(req, res, next) {
   if (req.body.email && req.body.password) {
-    User.authenticate(req.body.email, req.body.password, function (error, user) {
+    User.authenticate(req.body.email, req.body.password, function(error, user) {
       if (error || !user) {
         var err = new Error('Wrong email or password.');
         err.status = 401;
         return next(err);
-      }  else {
+      } else {
         req.session.userId = user._id;
         return res.redirect('/profile');
       }
@@ -78,28 +84,28 @@ router.post('/register', function(req, res, next) {
     req.body.username &&
     req.body.password &&
     req.body.confirmPassword) {
-      // if passwords don't match
-      if (req.body.password !== req.body.confirmPassword) {
-        const err = new Error('Passwords do not match.')
-        err.status = 400;
+    // if passwords don't match
+    if (req.body.password !== req.body.confirmPassword) {
+      const err = new Error('Passwords do not match.')
+      err.status = 400;
+      return next(err);
+    }
+
+    // create user object from input
+    const userData = {
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password
+    };
+
+    User.create(userData, function(err, user) {
+      if (err) {
         return next(err);
+      } else {
+        req.session.userId = user._id;
+        return res.redirect('/profile');
       }
-
-      // create user object from input
-      const userData = {
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password
-      };
-
-      User.create(userData, function(err, user) {
-        if (err) {
-          return next(err);
-        } else {
-          req.session.userId = user._id;
-          return res.redirect('/profile');
-        }
-      });
+    });
 
   } else {
     const err = new Error('Please fill in all fields.');
@@ -109,12 +115,14 @@ router.post('/register', function(req, res, next) {
 });
 
 // GET /login
-router.get('/login', function (req, res, next) {
-  return res.render('login', { title: 'Log in'});
+router.get('/login', function(req, res, next) {
+  return res.render('login', {
+    title: 'Log in'
+  });
 });
 
 // POST /login
-router.post('/login', function (req, res, next) {
+router.post('/login', function(req, res, next) {
   if (req.body.email && req.body.password) {
     User.authenticate(req.body.email, req.body.password, function(err, user) {
       if (err || !user) {
