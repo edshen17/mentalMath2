@@ -2,10 +2,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const session = require('express-session');
+var session = require('express-session');
 const routes = require('./routes/index.js');
 const app = express();
 
+// sessions for logins
+app.use(session({secret: 'your secret', saveUninitialized: false, resave: true}));
 // connect to mongodb
 mongoose.connect('mongodb://localhost:27017/users');
 const db = mongoose.connection;

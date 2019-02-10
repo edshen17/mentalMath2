@@ -4,6 +4,49 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
+// GET /profile
+router.get('/profile', function(req, res, next) {
+  if (!req.session.userId ) {
+    const err = new Error("You must be logged in to see this page");
+    err.status = 403;
+    return next(err);
+  }
+  User.findById(req.session.userId)
+      .exec(function (error, user) {
+        if (error) {
+          return next(error);
+        } else {
+          return res.render('profile', { title: 'Profile', username: user.username, favorite: user.highscore });
+        }
+      });
+});
+
+// GET /login
+router.get('/login', function(req, res, next) {
+  return res.render('login', { title: 'Log In'});
+});
+
+// POST /login
+router.post('/login', function(req, res, next) {
+  if (req.body.email && req.body.password) {
+    User.authenticate(req.body.email, req.body.password, function (error, user) {
+      if (error || !user) {
+        var err = new Error('Wrong email or password.');
+        err.status = 401;
+        return next(err);
+      }  else {
+        req.session.userId = user._id;
+        return res.redirect('/profile');
+      }
+    });
+  } else {
+    var err = new Error('Email and password are required.');
+    err.status = 401;
+    return next(err);
+  }
+});
+
+
 // GET /
 // Route for index page
 router.get('/', function(req, res, next) {
@@ -12,27 +55,11 @@ router.get('/', function(req, res, next) {
   });
 });
 
-// GET /login
-// Route for login page
-router.get('/login', function(req, res, next) {
-  return res.render('index', {
-    title: 'Login'
-  });
-});
-
 // GET /setting
 // Route for settings page
 router.get('/setting', function(req, res, next) {
   return res.render('setting', {
     title: 'Settings'
-  });
-});
-
-// GET /profile
-// Route for profile page
-router.get('/profile', function(req, res, next) {
-  return res.render('index', {
-    title: 'Profile'
   });
 });
 
@@ -69,6 +96,7 @@ router.post('/register', function(req, res, next) {
         if (err) {
           return next(err);
         } else {
+          req.session.userId = user._id;
           return res.redirect('/profile');
         }
       });
@@ -77,6 +105,31 @@ router.post('/register', function(req, res, next) {
     const err = new Error('Please fill in all fields.');
     err.status = 400;
     return next(err);
+  }
+});
+
+// GET /login
+router.get('/login', function (req, res, next) {
+  return res.render('login', { title: 'Log in'});
+});
+
+// POST /login
+router.post('/login', function (req, res, next) {
+  if (req.body.email && req.body.password) {
+    User.authenticate(req.body.email, req.body.password, function(err, user) {
+      if (err || !user) {
+        const err = new Error('Wrong email or password');
+        err.status = 401;
+        return next(err);
+      } else {
+        req.session.userId = user._id;
+        return res.redirect('/profile');
+      }
+    });
+  } else {
+    const err = new Error('Please input an email and password.');
+    err.status = 401;
+    next(err);
   }
 });
 
