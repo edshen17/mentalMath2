@@ -3,14 +3,11 @@ const question = require('../static/question.js');
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const middleware = require('../middleware');
 
 // GET /profile
-router.get('/profile', function(req, res, next) {
-  if (!req.session.userId) {
-    const err = new Error("You must be logged in to see this page");
-    err.status = 403;
-    return next(err);
-  }
+// Route for profile page
+router.get('/profile', middleware.requiresLogin, function(req, res, next) {
   User.findById(req.session.userId)
     .exec(function(error, user) {
       if (error) {
@@ -19,36 +16,24 @@ router.get('/profile', function(req, res, next) {
         return res.render('profile', {
           title: 'Profile',
           username: user.username,
-          favorite: user.highscore
+          highscore: user.highscore
         });
       }
     });
 });
 
-// GET /login
-router.get('/login', function(req, res, next) {
-  return res.render('login', {
-    title: 'Log In'
-  });
-});
-
-// POST /login
-router.post('/login', function(req, res, next) {
-  if (req.body.email && req.body.password) {
-    User.authenticate(req.body.email, req.body.password, function(error, user) {
-      if (error || !user) {
-        var err = new Error('Wrong email or password.');
-        err.status = 401;
+// GET /logout
+// Logs user out
+router.get('/logout', function(req, res, next) {
+  if (req.session) {
+    // delete the session object
+    req.session.destroy(function(err) {
+      if(err) {
         return next(err);
       } else {
-        req.session.userId = user._id;
-        return res.redirect('/profile');
+        return res.redirect('/');
       }
     });
-  } else {
-    var err = new Error('Email and password are required.');
-    err.status = 401;
-    return next(err);
   }
 });
 
@@ -71,7 +56,7 @@ router.get('/setting', function(req, res, next) {
 
 // GET /register
 // Route for register page
-router.get('/register', function(req, res, next) {
+router.get('/register', middleware.loggedOut, function(req, res, next) {
   return res.render('register', {
     title: 'Register'
   });
@@ -115,13 +100,15 @@ router.post('/register', function(req, res, next) {
 });
 
 // GET /login
-router.get('/login', function(req, res, next) {
+// Route for login page
+router.get('/login', middleware.loggedOut, function(req, res, next) {
   return res.render('login', {
     title: 'Log in'
   });
 });
 
 // POST /login
+// Route for when login information is submitted
 router.post('/login', function(req, res, next) {
   if (req.body.email && req.body.password) {
     User.authenticate(req.body.email, req.body.password, function(err, user) {

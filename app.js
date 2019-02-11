@@ -3,21 +3,32 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const routes = require('./routes/index.js');
 const app = express();
 
-// sessions for logins
-app.use(session({
-  secret: 'top secret!',
-  saveUninitialized: false,
-  resave: true
-}));
 // connect to mongodb
 mongoose.connect('mongodb://localhost:27017/users');
 const db = mongoose.connection;
 
 // on mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
+
+// sessions for logins
+app.use(session({
+  secret: 'top secret!',
+  saveUninitialized: false,
+  resave: true,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
+// make user ID available in pug templates
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.userId;
+  next();
+});
 
 app.use(bodyParser.urlencoded({
   extended: false
