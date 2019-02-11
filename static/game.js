@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * onReady - runs when the DOM is loaded. Says the first question and listens for enter keypress
+ * onReady - Says the first question and listens for "enter" keypress
  *
  * @param  {Array} questions Array of questions
  * @return {null}
@@ -25,10 +25,10 @@ function onReady(questions) {
  * @return {null}
  */
 function onBlur() {
-  $("#answer").focus();
+  $input.focus();
   let isBlurred = $('#blur-button').text() === 'Unblur question'
   isBlurred ? $('#blur-button').text('Blur question') : $('#blur-button').text('Unblur question') //changes button text depending on toggleClass
-  $("#question").toggleClass("blurred");
+  $qElem.toggleClass("blurred");
 }
 
 
@@ -45,13 +45,13 @@ function checkAnswer(questions) {
   let input = parseInt(document.getElementById('answer').value);
 
   $("#answer").focus();
-  if (input || input === 0 && questions[score].answer === 0) {
-    if (input === questions[score].answer) {
+  if (input || input === 0 && questions[score].answer === 0) { // if there's an answer
+    if (input === questions[score].answer) { // if the answer is correct
       $input.val('');
       score++
       $scoreElem.text(score);
 
-      if (score < questions.length) {
+      if (score < questions.length) { // and score is less than number of questions
         let groupButton = document.getElementById('group-button');
         let isTwoDigit = questions[score].num2 <= 10;
         isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
@@ -60,13 +60,14 @@ function checkAnswer(questions) {
         setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
 
       } else {
-        $('#question').text('you win!');
-        $('#answer').hide();
+        $qElem.text('you win!');
+        $input.hide();
         $('#check-button').hide();
       }
 
-    } else {
+    } else { // user gets the question wrong
       $input.val('');
+      $input.effect('shake');
       responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
     }
   }
@@ -96,7 +97,7 @@ function breakNumbers(num) {
  */
 function groupUp() {
   const arr = breakNumbers(questions[score].num2);
-  $("#answer").focus();
+  $input.focus();
   questions[score].brokenUp = `${questions[score].num1} ${questions[score].op} , ${arr.join(questions[score].op)}`;
   responsiveVoice.speak(questions[score].brokenUp, "UK English Male");
 }

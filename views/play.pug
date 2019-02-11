@@ -4,6 +4,7 @@ html
 		title Mental Math 2 | Play
 		script(src='http://code.responsivevoice.org/responsivevoice.js')
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		script(src='/game.js')
 
@@ -22,28 +23,29 @@ html
 		let isTwoDigit = questions[score].num2 < 9;
 		isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
 
-		// when document is ready: speak and check for enter key press
+		// when document is ready:
 		$(document).ready(function(){
+			// speak and check for enter key press
 			onReady(questions);
-		});
 
-		// if user clicks on enter button
-		document.getElementById('check-button').addEventListener('click', function() {
-			checkAnswer(questions);
-		});
+			// if user clicks on enter button
+			document.getElementById('check-button').addEventListener('click', function() {
+				checkAnswer(questions);
+			});
 
-		// if user clicks repeat button, repeat question and focus on the answer input
-		$('#repeat-button').click(function() {
-			responsiveVoice.speak(`${questions[score].num1} ${questions[score].op} ${questions[score].num2}`, "UK English Male");
-			$("#answer").focus();
-		});
+			// if user clicks repeat button, repeat question and focus on the answer input
+			$('#repeat-button').click(function() {
+				responsiveVoice.speak(`${questions[score].num1} ${questions[score].op} ${questions[score].num2}`, "UK English Male");
+				$("#answer").focus();
+			});
 
-		// if user press r, repeat the question
-		jQuery(document).on('keydown',function(evt) {
-			if (evt.keyCode == 82) $('#repeat-button').click();
-		});
+			// if user press r, repeat the question
+			jQuery(document).on('keydown',function(evt) {
+				if (evt.keyCode == 82) $('#repeat-button').click();
+			});
 
-		// blurs/unblurs question when clicked
-		$('#blur-button').on('click', function() {
-			onBlur();
-		})
+			// blurs/unblurs question when clicked
+			$('#blur-button').on('click', function() {
+				onBlur();
+			})
+		});

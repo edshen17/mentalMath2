@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-var session = require('express-session');
+const session = require('express-session');
 const routes = require('./routes/index.js');
 const app = express();
 
