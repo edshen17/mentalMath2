@@ -80,7 +80,9 @@ router.post('/register', function(req, res, next) {
     const userData = {
       email: req.body.email,
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      highScore: 0,
+      totalPoints: 0
     };
 
     User.create(userData, function(err, user) {

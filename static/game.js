@@ -1,5 +1,4 @@
 'use strict'
-
 /**
  * onReady - Says the first question and listens for "enter" keypress
  *
@@ -18,6 +17,17 @@ function onReady(questions) {
   });
 }
 
+// // update score if logged in
+// function test(sessionId) {
+// User.findById(sessionId)
+//   .exec(function(error, user) {
+//     if (error) {
+//       return next(error);
+//     } else {
+//       user.totalPoints++;
+//     }
+// }
+
 
 /**
  * onBlur - blurs the question and changes button text depending on state
@@ -25,10 +35,10 @@ function onReady(questions) {
  * @return {null}
  */
 function onBlur() {
-  $input.focus();
+  $("#answer").focus();
   let isBlurred = $('#blur-button').text() === 'Unblur question'
   isBlurred ? $('#blur-button').text('Blur question') : $('#blur-button').text('Unblur question') //changes button text depending on toggleClass
-  $qElem.toggleClass("blurred");
+  $("#question").toggleClass("blurred");
 }
 
 

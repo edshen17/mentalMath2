@@ -5,16 +5,27 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true,
+    unique: true
   },
   username: {
     type: String,
     required: true,
     trim: true,
+    unique: true
   },
   password: {
     type: String,
     required: true
+  },
+
+  highScore: {
+    type: Number,
+    required: false
+  },
+
+  totalPoints: {
+    type: Number,
+    required: false
   }
 });
 
@@ -39,6 +50,13 @@ UserSchema.statics.authenticate = function(email, password, callback) {
       });
 }
 
+// error handler
+UserSchema.on('index', function(err){
+  if (err) {
+    console.error(err);
+  }
+});
+
 
 // hash password first, then save it in the database
 UserSchema.pre('save', function(next) {
@@ -51,6 +69,8 @@ UserSchema.pre('save', function(next) {
     next();
   })
 });
+
+
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;
