@@ -17,7 +17,7 @@ function onReady(questions) {
   });
 }
 
-// // update score if logged in
+// // update score on database if logged in
 // function test(sessionId) {
 // User.findById(sessionId)
 //   .exec(function(error, user) {
@@ -42,8 +42,19 @@ function onBlur() {
 }
 
 // if user is correct
-function onCorrect() {
+function onCorrect(questions, elem) {
+  let groupButton = document.getElementById('group-button');
+  let isTwoDigit = questions[score].num2 <= 10;
+  isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
 
+  elem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
+  setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
+}
+
+function onWrong(questions, elem) {
+  elem.val('');
+  elem.effect('shake');
+  responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
 }
 
 
@@ -67,26 +78,17 @@ function checkAnswer(questions) {
       $scoreElem.text(score);
 
       if (score < questions.length) { // and score is less than number of questions
-        console.log('score less number of questions')
-        let groupButton = document.getElementById('group-button');
-        let isTwoDigit = questions[score].num2 <= 10;
-        isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
-
-        $qElem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
-        setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
+        onCorrect(questions, $qElem);
 
       } else {
-        console.log('win!')
+
         $qElem.text('you win!');
         $input.hide();
         $('#check-button').hide();
       }
 
     } else { // user gets the question wrong
-      console.log('wrong!');
-      $input.val('');
-      $input.effect('shake');
-      responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")
+      onWrong(questions, $input);
     }
   }
 }
