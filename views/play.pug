@@ -19,13 +19,12 @@ html
 
 	script(type="text/javascript").
 		let score = !{JSON.stringify(score)};
-		const questions = !{JSON.stringify(questions)};
-		let groupButton = document.getElementById('group-button');
-		let isTwoDigit = questions[score].num2 < 9;
-		isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
-
 		// when document is ready:
 		$(document).ready(function(){
+			const questions = !{JSON.stringify(questions)};
+			let groupButton = document.getElementById('group-button');
+			let isTwoDigit = questions[score].num2 < 9;
+			isTwoDigit ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
 			// speak and check for enter key press
 			onReady(questions);
 

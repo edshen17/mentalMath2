@@ -41,6 +41,11 @@ function onBlur() {
   $("#question").toggleClass("blurred");
 }
 
+// if user is correct
+function onCorrect() {
+
+}
+
 
 /**
  * checkAnswer - checks if the answer is correct and increments the score
@@ -53,8 +58,8 @@ function checkAnswer(questions) {
   const $input = $('#answer');
   const $qElem = $('#question');
   let input = parseInt(document.getElementById('answer').value);
-
   $("#answer").focus();
+
   if (input || input === 0 && questions[score].answer === 0) { // if there's an answer
     if (input === questions[score].answer) { // if the answer is correct
       $input.val('');
@@ -62,6 +67,7 @@ function checkAnswer(questions) {
       $scoreElem.text(score);
 
       if (score < questions.length) { // and score is less than number of questions
+        console.log('score less number of questions')
         let groupButton = document.getElementById('group-button');
         let isTwoDigit = questions[score].num2 <= 10;
         isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
@@ -70,12 +76,14 @@ function checkAnswer(questions) {
         setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
 
       } else {
+        console.log('win!')
         $qElem.text('you win!');
         $input.hide();
         $('#check-button').hide();
       }
 
     } else { // user gets the question wrong
+      console.log('wrong!');
       $input.val('');
       $input.effect('shake');
       responsiveVoice.speak(`${questions[score].voice}`, "UK English Male")

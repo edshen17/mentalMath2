@@ -153,6 +153,12 @@ router.post('/play', function(req, res, next) {
       operation: req.body.radio
     });
   }
+
+  else {
+    const err = new Error('Please fill out all fields.');
+    err.status = 401;
+    next(err);
+  }
 });
 
 module.exports = router;
