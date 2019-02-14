@@ -1,4 +1,5 @@
 'use strict'
+
 /**
  * onReady - Says the first question and listens for "enter" keypress
  *
@@ -17,18 +18,6 @@ function onReady(questions) {
   });
 }
 
-// // update score on database if logged in
-// function test(sessionId) {
-// User.findById(sessionId)
-//   .exec(function(error, user) {
-//     if (error) {
-//       return next(error);
-//     } else {
-//       user.totalPoints++;
-//     }
-// }
-
-
 /**
  * onBlur - blurs the question and changes button text depending on state
  *
@@ -41,7 +30,13 @@ function onBlur() {
   $("#question").toggleClass("blurred");
 }
 
-// if user is correct
+/**
+ * onCorrect - if the user is correct, check if the next question needs a group button and speak
+ *
+ * @param  {type} questions description
+ * @param  {type} elem      description
+ * @return {type}           description
+ */
 function onCorrect(questions, elem) {
   let groupButton = document.getElementById('group-button');
   let isTwoDigit = questions[score].num2 <= 10;
@@ -51,6 +46,14 @@ function onCorrect(questions, elem) {
   setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
 }
 
+
+/**
+ * onWrong - if the user is wrong, shake the input box and clear wrong answer
+ *
+ * @param  {type} questions description
+ * @param  {type} elem      description
+ * @return {type}           description
+ */
 function onWrong(questions, elem) {
   elem.val('');
   elem.effect('shake');

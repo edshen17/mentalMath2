@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -20,12 +21,14 @@ const UserSchema = new mongoose.Schema({
 
   highScore: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   },
 
   totalPoints: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   }
 });
 
@@ -57,6 +60,14 @@ UserSchema.on('index', function(err){
   }
 });
 
+// updates the high score
+UserSchema.method('changeScore', function(newScore, callback) {
+  if (newScore > this.score) {
+    this.score = newScore;
+  }
+  this.save(callback);
+});
+
 
 // hash password first, then save it in the database
 UserSchema.pre('save', function(next) {
@@ -69,8 +80,6 @@ UserSchema.pre('save', function(next) {
     next();
   })
 });
-
-
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;
