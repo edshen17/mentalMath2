@@ -8,7 +8,7 @@ const routes = require('./routes/index.js');
 const app = express();
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost:27017/users');
+mongoose.connect('mongodb://localhost:27017/users', { useNewUrlParser: true, useCreateIndex: true });
 const db = mongoose.connection;
 
 // on mongo error
