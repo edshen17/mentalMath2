@@ -82,9 +82,8 @@ function checkAnswer(questions) {
 
       if (score < questions.length) { // and score is less than number of questions
         onCorrect(questions, $qElem);
-
       } else {
-
+        $.post('/score', { score: score});
         $qElem.text('you win!');
         $input.hide();
         $('#check-button').hide();

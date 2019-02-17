@@ -61,9 +61,9 @@ UserSchema.on('index', function(err){
 });
 
 // updates the high score
-UserSchema.method('changeScore', function(newScore, callback) {
-  if (newScore > this.score) {
-    this.score = newScore;
+UserSchema.method('changeHighScore', function(newScore, callback) {
+  if (newScore > this.highScore) {
+    this.highScore = newScore;
   }
   this.save(callback);
 });

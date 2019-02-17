@@ -161,4 +161,23 @@ router.post('/play', function(req, res, next) {
   }
 });
 
+// POST /score
+// Route for updating user scores
+router.post('/score', (req, res) => {
+  if (req.session && req.session.userId) { // if logged in
+    User.findById(req.session.userId, function(err, user) { //find user
+      if (err) {
+        return next(err);
+      } else { //update points and high score
+        user.totalPoints += parseInt(req.body.score);
+        user.changeHighScore(parseInt(req.body.score), function(err, result) {
+          if (err) return next(err);
+        });
+      }
+    });
+  }
+  // always send a response:
+  res.json({ ok: true });
+});
+
 module.exports = router;
