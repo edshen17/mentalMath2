@@ -1,10 +1,6 @@
 extends layout
 
 block content
-  .main.container.clearfix
-    .row
-      .col-md-8.col-md-offset-2
-        h1.display-4
-          | #{username}
-        h2.high-score High score
-        | #{score}
+  h1 #{username}
+  h2.high-score High score: #{highScore}
+  h2.total-points Total points: #{totalPoints}

@@ -16,7 +16,8 @@ router.get('/profile', middleware.requiresLogin, function(req, res, next) {
         return res.render('profile', {
           title: 'Profile',
           username: user.username,
-          highscore: user.highscore
+          highScore: user.highScore,
+          totalPoints: user.totalPoints
         });
       }
     });
