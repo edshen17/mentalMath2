@@ -39,9 +39,9 @@ function onBlur() {
  */
 function onCorrect(questions, elem) {
   let groupButton = document.getElementById('group-button');
-  let isTwoDigit = questions[score].num2 <= 10;
-  isTwoDigit && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
+  let isOverTen = questions[score].num2 < 10;
 
+  isOverTen && score <= questions.length - 1 ? groupButton.style.display = 'none' : groupButton.style.display = 'block';
   elem.text(`${questions[score].num1} ${questions[score].op}  ${questions[score].num2}`);
   setTimeout(() => { responsiveVoice.speak(`${questions[score].voice}`, "UK English Male") }, 800);
 }
@@ -71,6 +71,10 @@ function checkAnswer(questions) {
   const $scoreElem = $('#score');
   const $input = $('#answer');
   const $qElem = $('#question');
+  const $repeatButton = $('#repeat-button');
+  const $blurButton = $('#blur-button');
+  const $groupButton  = $('#group-button');
+
   let input = parseInt(document.getElementById('answer').value);
   $("#answer").focus();
 
@@ -79,12 +83,17 @@ function checkAnswer(questions) {
       $input.val('');
       score++
       $scoreElem.text(score);
+      $.post('/score', { score: score}); //send score to db
 
       if (score < questions.length) { // and score is less than number of questions
         onCorrect(questions, $qElem);
-      } else {
-        $.post('/score', { score: score});
+      } else { // on win
+        $.post('/score', { score: score}); //send score to db
         $qElem.text('you win!');
+        $repeatButton.hide();
+        $blurButton.hide();
+        onBlur();
+        $groupButton.hide();
         $input.hide();
         $('#check-button').hide();
       }
@@ -117,9 +126,9 @@ function breakNumbers(num) {
  *
  * @return {null}
  */
-function groupUp() {
+function groupUp(questions) {
   const arr = breakNumbers(questions[score].num2);
-  $input.focus();
+  $('#input').focus();
   questions[score].brokenUp = `${questions[score].num1} ${questions[score].op} , ${arr.join(questions[score].op)}`;
   responsiveVoice.speak(questions[score].brokenUp, "UK English Male");
 }

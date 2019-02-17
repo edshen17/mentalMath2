@@ -170,7 +170,7 @@ router.post('/score', (req, res) => {
       if (err) {
         return next(err);
       } else { //update points and high score
-        user.totalPoints += parseInt(req.body.score);
+        user.totalPoints += 1;
         user.changeHighScore(parseInt(req.body.score), function(err, result) {
           if (err) return next(err);
         });
