@@ -192,7 +192,7 @@ router.get('/scoreboard', function(req, res, next) {
         users: users
       });
     }
-  }).select("-_id username totalPoints highScore").limit(50);
+  }).select("-_id username totalPoints highScore").sort([['totalPoints', 'desc']]).limit(50);
 
 
 });
