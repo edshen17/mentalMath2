@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  
+  h1 Scoreboard
+    table(id="scoreboard")
+      
+      each user in users 
+        tr 
+          // insert table data
+          td #{user.username}
+          td #{user.totalPoints}
+          td #{user.highScore}
+        

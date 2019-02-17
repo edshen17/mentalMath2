@@ -29,7 +29,7 @@ router.get('/logout', function(req, res, next) {
   if (req.session) {
     // delete the session object
     req.session.destroy(function(err) {
-      if(err) {
+      if (err) {
         return next(err);
       } else {
         return res.redirect('/');
@@ -153,9 +153,7 @@ router.post('/play', function(req, res, next) {
       score: 0,
       operation: req.body.radio
     });
-  }
-
-  else {
+  } else {
     const err = new Error('Please fill out all fields.');
     err.status = 401;
     next(err);
@@ -178,7 +176,25 @@ router.post('/score', (req, res) => {
     });
   }
   // always send a response:
-  res.json({ ok: true });
+  res.json({
+    ok: true
+  });
+});
+
+// GET /scoreboard
+// Route for player scoreboard
+router.get('/scoreboard', function(req, res, next) {
+  User.find((err, users) => {
+    if (err) return next(err);
+    if (users != null) {
+      return res.render('scoreboard', {
+        title: 'Scoreboard',
+        users: users
+      });
+    }
+  }).select("-_id username totalPoints highScore").limit(50);
+
+
 });
 
 module.exports = router;
