@@ -2,29 +2,29 @@ extends layout
 
 block content
   form(method='POST' action='/play')
-    div.form-group
+    div
       label(for='amount') Amount of problems:
-      input#amount.form-control(type='number', placeholder='' name='amount' value='20')
-    div.form-group
+      input#amount(type='number', placeholder='' name='amount' value='20')
+    div
       label(for='min') Range of numbers:
-      input#min.form-control(type='number', placeholder='' name='min' value='1')
-    div.form-group
+      input#min(type='number', placeholder='' name='min' value='1')
+    div
       label(for='max') to
-      input#max.form-control(type='number', placeholder='' name='max' value='20')
-    div.form-group
+      input#max(type='number', placeholder='' name='max' value='20')
+    div
       label(for='addition')
-      input.form-control(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
+      input(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
       | Addition
-    div.form-group
+    div
       label(for='subtraction')
-      input.form-control(type='radio'  id = 'subtraction' name='radio' value='Subtraction')
+      input(type='radio'  id = 'subtraction' name='radio' value='Subtraction')
       | Subtraction
-    div.form-group
+    div
       label(for='multiplication')
-      input.form-control(type='radio'  id = 'multiplication' name='radio' value='Multiplication')
+      input(type='radio'  id = 'multiplication' name='radio' value='Multiplication')
       | Multiplication
-    div.form-group
+    div
       label(for='division')
-      input.form-control(type='radio'  id = 'division' name='radio' value='Division')
+      input(type='radio'  id = 'division' name='radio' value='Division')
       | Division
-    button.btn.btn-primary(type='submit') Play now
+    button(type='submit') Play now

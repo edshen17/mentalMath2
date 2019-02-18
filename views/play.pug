@@ -12,10 +12,10 @@ html
 		p#question #{questions[score].num1} #{questions[score].op}  #{questions[score].num2}
 			p#score #{score}
 			input#answer(type='number')
-			button.btn.btn-primary#check-button Enter
-			button.btn.btn-primary#repeat-button Repeat
-			button.btn.btn-primary#group-button Break number
-			button.btn.btn-primary#blur-button Unblur question
+			button#check-button Enter
+			button#repeat-button Repeat
+			button#group-button Break number
+			button#blur-button Unblur question
 
 	script(type="text/javascript").
 		let score = !{JSON.stringify(score)};

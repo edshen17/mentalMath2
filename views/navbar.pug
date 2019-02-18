@@ -1,16 +1,16 @@
 nav.navbar
-            ul.col-md-12.row
-                a(href="/setting")
-                    li.col-md-3.col-md-offset-1 Settings
-                if currentUser
-                  a.btn(href='/logout') Log Out
-                else
-                  a(href="/login")
-                      li.col-md-3 Login
-                a(href="/profile")
-                    li.col-md-3 Profile
-                if !currentUser
-                  a(href="/register")
-                      li.col-md-3 Register
-                a(href="/scoreboard")
-                    li.col-md-3.col-md-offset-1 Scoreboard
+  ul
+      a(href="/setting")
+          li Settings
+      if currentUser
+        a.btn(href='/logout') Log Out
+      else
+        a(href="/login")
+            li Login
+      a(href="/profile")
+          li Profile
+      if !currentUser
+        a(href="/register")
+            li Register
+      a(href="/scoreboard")
+          li Scoreboard
