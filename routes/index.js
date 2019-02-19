@@ -1,6 +1,7 @@
 'use strict'
 const question = require('../static/question.js');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const router = express.Router();
 const User = require('../models/user');
 const middleware = require('../middleware');
@@ -134,6 +135,7 @@ router.post('/login', function(req, res, next) {
 // GET /play
 // Route for game
 router.get('/play', function(req, res, next) {
+
   const questionArray = question.createQuestions(); //use default values if none inputted
   return res.render('play', {
     title: 'Game',
@@ -147,6 +149,11 @@ router.get('/play', function(req, res, next) {
 // Route for creating the game from setting route
 router.post('/play', function(req, res, next) {
   if (req.body.amount && req.body.min && req.body.max) {
+    // set cookies for future use
+    res.cookie('operation', req.body.radio);
+    res.cookie('min', req.body.min);
+    res.cookie('max', req.body.max);
+    res.cookie('amount', req.body.amount);
     const questionArray = question.createQuestions(req.body.radio, req.body.min, req.body.max, req.body.amount);
     return res.render('play', {
       questions: questionArray,
