@@ -123,6 +123,9 @@ router.post('/login', function(req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
+          if (req.body.remember) { // if "remember me" checkbox is checked, set session cookie to expire later
+            req.session.cookie.maxAge = 2628000000;
+          }
         return res.redirect('/profile');
       }
     });
