@@ -1,18 +1,21 @@
 nav.navbar
   ul
+      a(href="/")
+          li(class=(title === "Home" ? "active" : undefined)) Home
       a(href="/setting")
-          li Settings
-      if currentUser
-        a.btn(href='/logout') Log Out
-      else
-        a(href="/login")
-            li Login
+          li(class=(title === "Settings" ? "active" : undefined)) Settings
       a(href="/profile")
-          li Profile
-      a(href="/play")
-          li Play
+          li(class=(title === "Profile" ? "active" : undefined)) Profile
       if !currentUser
         a(href="/register")
-            li Register
+            li#signup.navbar-right Sign Up
       a(href="/scoreboard")
-          li Scoreboard
+          li(class=(title === "Scoreboard" ? "active" : undefined)) Scoreboard
+      a(href="/play")
+          li Play!  
+      if currentUser
+        a.btn(href='/logout') 
+          li#logout Log Out
+      else
+        a(href="/login")
+            li#login Login

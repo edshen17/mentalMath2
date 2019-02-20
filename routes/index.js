@@ -93,7 +93,9 @@ router.post('/register', function(req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.redirect('/profile');
+        return res.redirect('/profile', {
+          title: 'Profile'
+        });
       }
     });
 
