@@ -1,10 +1,11 @@
 'use strict'
 const question = require('../static/question.js');
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const router = express.Router();
 const User = require('../models/user');
 const middleware = require('../middleware');
+const cookieParser = require('cookie-parser');
+router.use(cookieParser());
 
 // GET /profile
 // Route for profile page
@@ -135,8 +136,15 @@ router.post('/login', function(req, res, next) {
 // GET /play
 // Route for game
 router.get('/play', function(req, res, next) {
+  let questionArray;
+  if (req.cookies['operation'] && req.cookies['min'] &&
+    req.cookies['max'] && req.cookies['amount']) { //if there are cookies, use those values
+    questionArray = question.createQuestions(req.cookies['operation'], req.cookies['min'],
+      req.cookies['max'], req.cookies['amount']);
+  } else {
+    questionArray = question.createQuestions(); //otherwise, use default values
+  }
 
-  const questionArray = question.createQuestions(); //use default values if none inputted
   return res.render('play', {
     title: 'Game',
     questions: questionArray,
@@ -154,6 +162,7 @@ router.post('/play', function(req, res, next) {
     res.cookie('min', req.body.min);
     res.cookie('max', req.body.max);
     res.cookie('amount', req.body.amount);
+    //console.log(req.cookies['operation']);
     const questionArray = question.createQuestions(req.body.radio, req.body.min, req.body.max, req.body.amount);
     return res.render('play', {
       questions: questionArray,
@@ -199,7 +208,9 @@ router.get('/scoreboard', function(req, res, next) {
         users: users
       });
     }
-  }).select("-_id username totalPoints highScore").sort([['totalPoints', 'desc']]).limit(50);
+  }).select("-_id username totalPoints highScore").sort([
+    ['totalPoints', 'desc']
+  ]).limit(50);
 
 
 });
