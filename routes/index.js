@@ -146,10 +146,10 @@ router.get('/play', function(req, res, next) {
   }
 
   return res.render('play', {
-    title: 'Game',
     questions: questionArray,
     score: 0,
-    operation: req.body.radio
+    operation: req.body.radio,
+    amount: req.cookies['amount']
   });
 });
 
@@ -167,7 +167,8 @@ router.post('/play', function(req, res, next) {
     return res.render('play', {
       questions: questionArray,
       score: 0,
-      operation: req.body.radio
+      operation: req.body.radio,
+      amount: req.body.amount
     });
   } else {
     const err = new Error('Please fill out all fields.');
@@ -184,7 +185,7 @@ router.post('/score', (req, res) => {
       if (err) {
         return next(err);
       } else { //update points and high score
-        user.totalPoints += 1;
+        user.totalPoints++;
         user.changeHighScore(parseInt(req.body.score), function(err, result) {
           if (err) return next(err);
         });
@@ -211,8 +212,6 @@ router.get('/scoreboard', function(req, res, next) {
   }).select("-_id username totalPoints highScore").sort([
     ['totalPoints', 'desc']
   ]).limit(50);
-
-
 });
 
 module.exports = router;

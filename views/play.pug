@@ -10,12 +10,13 @@ html
 		script(src='/game.js')
 
 		p#question #{questions[score].num1} #{questions[score].op}  #{questions[score].num2}
-			p#score #{score}
-			input#answer(type='number')
-			button#check-button Enter
-			button#repeat-button Repeat
-			button#group-button Break number
-			button#blur-button Unblur question
+		p#score Score: #{score}
+		p#amount Questions left: #{amount}
+		input#answer(type='number')
+		button#check-button Enter
+		button#repeat-button Repeat
+		button#group-button Break number
+		button#blur-button Unblur question
 
 	script(type="text/javascript").
 		let score = !{JSON.stringify(score)};
