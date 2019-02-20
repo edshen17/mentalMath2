@@ -1,19 +1,16 @@
 extends layout
 
 block content
-        h1 Sign Up
-        // register form
-        form(method='POST' action='/register')
-          div
-            label(for='username') Username:
-            input#name(type='text', name='username')
-          div
-            label(for='email') Email:
-            input#email(type='email', placeholder='name@email.com' name='email')
-          div
-            label(for='pw') Password:
-            input#pw(type='password' name='password')
-          div
-            label(for='pw2') Confirm Password:
-            input#pw2(type='password' name='confirmPassword')
-          button(type='submit') Sign up
+  h1(style='color: black; text-align: center;') Sign Up
+  // register form
+  div.form
+    form(method='POST' action='/register')
+      label(for='username')
+      input#name(type='text', name='username' placeholder='Username')
+      label(for='email')
+      input#email(type='email', placeholder='Email' name='email')
+      label(for='pw')
+      input#pw(type='password' name='password' placeholder='Password')
+      label(for='pw2') 
+      input#pw2(type='password' name='confirmPassword' placeholder='Confirm Password')
+    button(type='submit') Sign up
