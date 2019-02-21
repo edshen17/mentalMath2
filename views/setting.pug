@@ -2,29 +2,26 @@ extends layout
 
 block content
   form(method='POST' action='/play')
-    div
+    div.form
       label(for='amount') Amount of problems:
       input#amount(type='number', placeholder='' name='amount' value='20')
-    div
-      label(for='min') Range of numbers:
-      input#min(type='number', placeholder='' name='min' value='1')
-    div
-      label(for='max') to
-      input#max(type='number', placeholder='' name='max' value='20')
-    div
+      .two-col
+        .col1
+          label(for='min') Minimum
+          input#min(type='number', placeholder='' name='min' value='1')
+        .col2
+          label(for='max') Maximum
+          input#max(type='number', placeholder='' name='max' value='20')
       label(for='addition')
       input(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
       | Addition
-    div
       label(for='subtraction')
       input(type='radio'  id = 'subtraction' name='radio' value='Subtraction')
       | Subtraction
-    div
       label(for='multiplication')
       input(type='radio'  id = 'multiplication' name='radio' value='Multiplication')
       | Multiplication
-    div
       label(for='division')
       input(type='radio'  id = 'division' name='radio' value='Division')
       | Division
-    button#submit(type='submit') Play now
+      button#submit(type='submit') Play now
