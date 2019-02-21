@@ -1,7 +1,13 @@
 /* Base Styles */
 body {
-  background-color: #659DBD;
+  background-color: #dbe5e3;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%2396ac92' fill-opacity='0.59' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   margin: 0;
+}
+
+h1 {
+  color: black; text-align: center;
 }
 
 hr {
@@ -91,7 +97,6 @@ button[type=submit] {
 
 .two-col {
   overflow: hidden;
-  /* Makes this div contain its floats */
 }
 
 .two-col .col1,
@@ -109,6 +114,30 @@ button[type=submit] {
 
 .two-col label {
   display: block;
+}
+
+/* Scoreboard Styles */
+#scoreboard {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+#scoreboard td, #scoreboard th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#scoreboard tr{background-color: #f2f2f2;}
+
+#scoreboard tr:hover {background-color: #ddd;}
+
+#scoreboard th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
 }
 
 /* Game Styles */

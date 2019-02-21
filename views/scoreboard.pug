@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 Scoreboard
-    table(id="scoreboard")
+    table(id="scoreboard" align='center')
       tr
         th Username
         th Total points
@@ -12,4 +12,4 @@ block content
           td #{user.username}
           td #{user.totalPoints}
           td #{user.highScore}
-        
+    script(src='/scoreboard.js')
