@@ -110,7 +110,7 @@ router.post('/register', function(req, res, next) {
 // Route for login page
 router.get('/login', middleware.loggedOut, function(req, res, next) {
   return res.render('login', {
-    title: 'Log in'
+    title: 'Log In'
   });
 });
 

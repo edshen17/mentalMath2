@@ -9,11 +9,10 @@ hr {
 }
 
 /* Navbar */
-
 .navbar ul {
   list-style-type: none;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   background-color: #8EE4AF;
   border-bottom: 4px solid #379683;
@@ -24,7 +23,7 @@ li a:hover:not(.active) {
   color: white;
 }
 
- .navbar ul a li {
+.navbar ul a li {
   float: left;
   font-size: 1.3em;
   display: inline;
@@ -54,8 +53,8 @@ a:hover li {
   background-color: #5CDB95;
   color: white;
 }
-/* Inputs/forms */
 
+/* Inputs/forms */
 input[type=text], input[type=email], input[type=password], input[type=number], select {
   width: 100%;
   padding: 12px 20px;
@@ -77,8 +76,8 @@ button[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
-  background-color: #45a049;
+.radios label {
+  margin: 0px 25px 0px 25px;
 }
 
 .form {
@@ -87,27 +86,29 @@ input[type=submit]:hover {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 40px 40px;
+  font-size: 1.2em;
 }
 
 .two-col {
-    overflow: hidden;/* Makes this div contain its floats */
+  overflow: hidden;
+  /* Makes this div contain its floats */
 }
 
 .two-col .col1,
 .two-col .col2 {
-    width: 49%;
+  width: 49%;
 }
 
 .two-col .col1 {
-    float: left;
+  float: left;
 }
 
 .two-col .col2 {
-    float: right;
+  float: right;
 }
 
 .two-col label {
-    display: block;
+  display: block;
 }
 
 /* Game Styles */

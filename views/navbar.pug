@@ -8,7 +8,7 @@ nav.navbar
           li(class=(title === "Profile" ? "active" : undefined)) Profile
       if !currentUser
         a(href="/register")
-            li#signup.navbar-right Sign Up
+            li(id='signup' class=(title === "Register" ? "active" : undefined)) Sign Up
       a(href="/scoreboard")
           li(class=(title === "Scoreboard" ? "active" : undefined)) Scoreboard
       a(href="/play")
@@ -18,4 +18,4 @@ nav.navbar
           li#logout Log Out
       else
         a(href="/login")
-            li#login Login
+            li(id='login' class=(title === "Log In" ? "active" : undefined)) Log in

@@ -1,9 +1,10 @@
 extends layout
 
 block content
+  h1(style='color: black; text-align: center;') Settings
   form(method='POST' action='/play')
     div.form
-      label(for='amount') Amount of problems:
+      label(for='amount') Amount of problems
       input#amount(type='number', placeholder='' name='amount' value='20')
       .two-col
         .col1
@@ -13,15 +14,16 @@ block content
           label(for='max') Maximum
           input#max(type='number', placeholder='' name='max' value='20')
       label(for='addition')
-      input(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
-      | Addition
-      label(for='subtraction')
-      input(type='radio'  id = 'subtraction' name='radio' value='Subtraction')
-      | Subtraction
-      label(for='multiplication')
-      input(type='radio'  id = 'multiplication' name='radio' value='Multiplication')
-      | Multiplication
-      label(for='division')
-      input(type='radio'  id = 'division' name='radio' value='Division')
-      | Division
-      button#submit(type='submit') Play now
+      div.radios
+        input(type='radio'  id = 'addition' name='radio' value='Addition' checked='checked')
+        | Addition
+        label(for='subtraction')
+        input(type='radio'  id = 'subtraction' name='radio' value='Subtraction')
+        | Subtraction
+        label(for='multiplication')
+        input(type='radio'  id = 'multiplication' name='radio' value='Multiplication')
+        | Multiplication
+        label(for='division')
+        input(type='radio'  id = 'division' name='radio' value='Division')
+        | Division
+      button#submit(type='submit') Play now!
