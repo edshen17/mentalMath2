@@ -1,6 +1,5 @@
 # Mental Math 2
-This website is a tool for students so they can improve their mental math calculation speeds. Numbers are invisible by default and the computer uses text-to-speech to read the numbers aloud. There are buttons that break down/chunk the number into smaller pieces to aid with the calculations.
-The website also has a login system so users can keep track of their high scores and compete with their friends.
+This website is a tool for students so they can improve their mental math calculation speeds. Numbers are invisible by default and the computer uses text-to-speech to read the numbers aloud. There are buttons that break down/chunk the number into smaller pieces to aid with the calculations, and the website also has a login system so users can keep track of their high scores and compete with their friends.
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
