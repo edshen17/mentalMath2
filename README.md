@@ -12,7 +12,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 1. ```git clone https://github.com/edshen17/mentalMath2.git ```
 2. Start up Command Prompt or Terminal and navigate to the directory: ```cd <clone directory>```
-3. Install all the dependences this bot uses by typing: ```npm install ``` 
+3. Install all the dependences by typing: ```npm install ``` 
 4. Make sure mongo is running on your local machine
 5. Type ```nodemon app.js``` to start the website (which is on port 3000 by default)
 
